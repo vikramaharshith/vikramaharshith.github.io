@@ -258,6 +258,7 @@ h3 {
 }
 
 .halo {
+  --halo-band:29px;
   position:absolute;
   z-index:-1;
   left:50%;
@@ -265,26 +266,28 @@ h3 {
   width:min(1220px,110vw);
   aspect-ratio:1;
   translate:-50% 0;
-  border:29px solid #f3eeff;
+  border:var(--halo-band) solid #bca4f5;
   border-radius:50%;
-  box-shadow:0 0 13px 7px #eee7ff,0 0 44px 20px #8a60ff,0 0 95px 46px #4e21ee,0 0 175px 64px #271ca185,inset 0 0 14px 7px #eee7ff,inset 0 0 48px 24px #6d40ff,inset 0 0 100px 42px #3c1cdb;
+  box-shadow:0 0 13px 4px #d9caff86,0 0 44px 20px #8a60ff,0 0 95px 46px #4e21ee,0 0 175px 64px #271ca185,inset 0 0 14px 4px #d9caff86,inset 0 0 48px 24px #6d40ff,inset 0 0 100px 42px #3c1cdb;
   filter:blur(1px);
-  animation:halo-breathe 10s ease-in-out infinite alternate;
-  pointer-events:none;
+  pointer-events:none
+}
+
+.halo::after {
+  content:"";
+  position:absolute;
+  inset:calc(-1 * var(--halo-band));
+  border-radius:inherit;
+  background:conic-gradient(from 0deg,#ffffff00 0deg 20deg,#d6c8ff30 40deg,#f8f5ff 75deg,#ffffff 115deg,#c19affb3 150deg,#ffffff00 205deg 255deg,#ad87ff99 285deg,#f2eaff 320deg,#ffffff00 360deg);
+  mask:radial-gradient(farthest-side,transparent calc(100% - var(--halo-band)),#000 calc(100% - var(--halo-band) + 1px));
+  animation:halo-spin 20s linear infinite;
   will-change:transform
 }
 
-@keyframes halo-breathe {
-  from {
-    transform:translateY(-8px);
-    opacity:.86
-  }
-
+@keyframes halo-spin {
   to {
-    transform:translateY(8px);
-    opacity:1
+    transform:rotate(1turn)
   }
-
 }
 
 .hero-content {
@@ -1220,7 +1223,7 @@ h1>span:first-child {
   }
 
   .halo {
-    border-width:23px;
+    --halo-band:23px;
     width:112vw;
     bottom:48%
   }
@@ -1428,10 +1431,10 @@ h1>span:first-child {
   }
 
   .halo {
+    --halo-band:21px;
     bottom:53%;
     width:150vw;
-    border-width:21px;
-    box-shadow:0 0 11px 5px #eee7ff,0 0 30px 15px #8a60ff,0 0 68px 30px #4e21ee,0 0 110px 40px #271ca180,inset 0 0 12px 5px #eee7ff,inset 0 0 28px 12px #6d40ff,inset 0 0 70px 25px #3c1cdb
+    box-shadow:0 0 11px 4px #d9caff86,0 0 30px 15px #8a60ff,0 0 68px 30px #4e21ee,0 0 110px 40px #271ca180,inset 0 0 12px 4px #d9caff86,inset 0 0 28px 12px #6d40ff,inset 0 0 70px 25px #3c1cdb
   }
 
   .hero-content {
@@ -1920,6 +1923,52 @@ h1>span:first-child {
 
 }
 
+.section h2,.contact-content h2 {
+  font-size:clamp(2rem,3.2vw,2.75rem);
+  letter-spacing:-.045em;
+  line-height:1.2
+}
+
+.section {
+  padding-block:80px
+}
+
+.section-top {
+  margin-bottom:36px
+}
+
+.contact-section {
+  padding-block:80px
+}
+
+.contact-links {
+  align-items:center
+}
+
+.social-button {
+  gap:9px
+}
+
+.social-button svg {
+  width:18px;
+  height:18px;
+  flex-shrink:0
+}
+
+@media(max-width:600px) {
+  .section,.contact-section {
+    padding-block:56px
+  }
+
+  .hero-actions .social-button {
+    padding-inline:18px
+  }
+
+  .contact-links {
+    gap:20px
+  }
+}
+
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after {
     animation:none!important;
@@ -1927,7 +1976,7 @@ h1>span:first-child {
     scroll-behavior:auto!important
   }
 
-  .halo {
+  .halo,.halo::after {
     will-change:auto;
     opacity:.95
   }
